@@ -1,3 +1,5 @@
+//pick up tutorial where I left off 50:06
+
 import React, { Component } from 'react';
 
 import Summary from './Summary';
