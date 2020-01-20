@@ -1,29 +1,47 @@
-import React, { Component } from 'react';
+// import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import CharPicker from './components/CharPicker';
 import Character from './components/Character';
 
-class App extends Component {
-  state = {
-    selectedCharacter: 1,
-    side: 'light',
-    destroyed: false
+
+// class App extends Component {
+const App = props => {
+  const [state, setState] = useState({
+      selectedCharacter: 1,
+      side: 'light',
+      destroyed: false
+    });
+  
+  // state = {
+  //   selectedCharacter: 1,
+  //   side: 'light',
+  //   destroyed: false
+  // };
+
+  // make functions into a const
+  // sideHandler = side => {
+    const sideHandler = side => {
+    // remove this.
+    setState({ side: side });
   };
 
-  sideHandler = side => {
-    this.setState({ side: side });
-  };
-
-  charSelectHandler = event => {
+  // make functions into a const
+  // charSelectHandler = event => {
+    const charSelectHandler = event => {
+    // remove this.
     const charId = event.target.value;
-    this.setState({ selectedCharacter: charId });
+    setState({ selectedCharacter: charId });
   };
 
-  destructionHandler = () => {
-    this.setState({ destroyed: true });
+  // make functions into a const
+  // destructionHandler = () => {
+    const destructionHandler = () => {
+    // remove this.
+    setState({ destroyed: true });
   };
 
-  render() {
+  // render() {
     let content = (
       <React.Fragment>
         <CharPicker
@@ -46,7 +64,7 @@ class App extends Component {
       content = <h1>Total destruction!</h1>;
     }
     return content;
-  }
+  // }
 }
 
 export default App;
