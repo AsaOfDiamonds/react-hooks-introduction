@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import CharPicker from './components/CharPicker';
 import Character from './components/Character';
 
-
+// Paused 9:07
 // class App extends Component {
 const App = props => {
   const [state, setState] = useState({
