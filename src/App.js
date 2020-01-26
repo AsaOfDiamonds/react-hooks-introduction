@@ -7,11 +7,21 @@ import Character from './components/Character';
 // Paused 11:31
 // class App extends Component {
 const App = props => {
-  const [state, setState] = useState({
-      selectedCharacter: 1,
-      side: 'light',
-      destroyed: false
-    });
+  // const [state, setState] = useState({
+  //     // selectedCharacter: 1, // removed due to useState below
+  //     // side: 'light',  // removed due to useState below
+  //     // destroyed: false // removed due to useState below
+  //   });
+
+    const [destroyed, setDestroyed] = useState(false)
+
+
+    // define another state, state can be a string does not have to be an obj
+    const [chosenSide, setChosenSide] = useState('light')
+
+    // define another state, state can be a number does not have to be an obj
+    const [selectedCharacter, setSelectedCharacter] = useState('1')
+
   
   // state = {
   //   selectedCharacter: 1,
@@ -25,8 +35,14 @@ const App = props => {
   //   this.setState({ side: side });
   // };
 
+  /// can manually setState with ...state but not the best option, can define multiple
+  // states now, see top of code
+  // const sideHandler = side => {    
+  //   setState({ ...state, side: side });
+  // };
+
   const sideHandler = side => {    
-    setState({ side: side });
+    setChosenSide(side);
   };
 
   // make functions into a const
@@ -36,11 +52,19 @@ const App = props => {
   //   this.setState({ selectedCharacter: charId });
   // };
 
+  // can manually setState with ...state but not the best option, can define multiple
+  // states now, see top of code
+  // const charSelectHandler = event => {
+  //   const charId = event.target.value;
+  //   setState({ ...state, selectedCharacter: charId });
+  // };
+
+  
   const charSelectHandler = event => {
     const charId = event.target.value;
-    setState({ selectedCharacter: charId });
-  };
-
+    setSelectedCharacter(charId);
+  }
+  
   
   // make functions into a const
   // remove this. from this.setState
@@ -48,10 +72,15 @@ const App = props => {
   // this.setState({ destroyed: true });
   // };
 
-  const destructionHandler = () => {
-    setState({ destroyed: true });
-  };
+  // can manually setState with ...state but not the best option, can define multiple
+  // states now, see top of code
+  // const destructionHandler = () => {
+  //   setState({ ...state, destroyed: true });
+  // };
 
+  const destructionHandler = () => {
+    setDestroyed(true);
+  };
   
   //  render() {
   //   let content = (
@@ -83,23 +112,32 @@ const App = props => {
   let content = (
         <React.Fragment>
   
-          <CharPicker
+          {/* <CharPicker
             side={state.side}
             selectedChar={state.selectedCharacter}
             onCharSelect={charSelectHandler}
+          /> 
+          changed because of state hooks at top
+           */}
+
+          <CharPicker
+            side={chosenSide}
+            selectedChar={selectedCharacter}
+            onCharSelect={charSelectHandler}
           />
-          <Character selectedChar={state.selectedCharacter} />
+
+          <Character selectedChar={selectedCharacter} />
           <button onClick={sideHandler.bind(null, 'light')}>
             Light Side
           </button>
           <button onClick={sideHandler.bind(null, 'dark')}>Dark Side</button>
-          {state.side === 'dark' && (
+          {chosenSide === 'dark' && (
             <button onClick={destructionHandler}>DESTROY!</button>
           )}
         </React.Fragment>
       );
   
-      if (state.destroyed) {
+      if (destroyed) {
         content = <h1>Total destruction!</h1>;
       }
       return content;
