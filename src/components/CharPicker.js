@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
-
+// import React, { Component } from 'react'; // going to useState instead
+import React, { useState } from 'react';
 import './CharPicker.css';
 
-class CharPicker extends Component {
-  state = { characters: [], isLoading: false };
+// convert charPicker to a functional component
+const CharPicker = props => {
+// class CharPicker extends Component {
+  const [loadedChars, setLoadedChars] = useState([]) // list of characters
+  const [isLoading, setIsLoading] = useState(false) // loading state
+  // state = { characters: [], isLoading: false };
 
   componentDidMount() {
     this.setState({ isLoading: true });
@@ -29,21 +33,24 @@ class CharPicker extends Component {
       });
   }
 
-  render() {
+  // render() { // removed to fix jsx code to use updated state
+  // then remove all places of this.state to see how we have to adjust
+  // characters now have to be adjusted from this.state.characters to loadedChars
+  // convert this.props to just props because we are now in a functional component
     let content = <p>Loading characters...</p>;
 
     if (
-      !this.state.isLoading &&
-      this.state.characters &&
-      this.state.characters.length > 0
+      !isLoading &&
+      loadedChars &&
+      loadedChars.length > 0
     ) {
       content = (
         <select
-          onChange={this.props.onCharSelect}
-          value={this.props.selectedChar}
-          className={this.props.side}
+          onChange={props.onCharSelect}
+          value={props.selectedChar}
+          className={props.side}
         >
-          {this.state.characters.map(char => (
+          {loadedChars.map(char => (
             <option key={char.id} value={char.id}>
               {char.name}
             </option>
@@ -51,13 +58,13 @@ class CharPicker extends Component {
         </select>
       );
     } else if (
-      !this.state.isLoading &&
-      (!this.state.characters || this.state.characters.length === 0)
+      !isLoading &&
+      (!loadedChars || loadedChars.length === 0)
     ) {
       content = <p>Could not fetch any data.</p>;
     }
-    return content;
-  }
+    return content; // no render just return content
+  // } // removed to fix jsx code to use updated state
 }
 
 export default CharPicker;
