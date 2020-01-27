@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import './CharPicker.css';
 
+// paused 21:23
+
 // convert charPicker to a functional component
 const CharPicker = props => {
 // class CharPicker extends Component {
