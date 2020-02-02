@@ -1,8 +1,8 @@
 // import React, { Component } from 'react'; // going to useState instead
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CharPicker.css';
 
-// paused 21:23
+// paused 23:36
 
 // convert charPicker to a functional component
 const CharPicker = props => {
@@ -11,29 +11,45 @@ const CharPicker = props => {
   const [isLoading, setIsLoading] = useState(false) // loading state
   // state = { characters: [], isLoading: false };
 
-  componentDidMount() {
-    this.setState({ isLoading: true });
-    fetch('https://swapi.co/api/people')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch.');
-        }
-        return response.json();
-      })
-      .then(charData => {
-        const selectedCharacters = charData.results.slice(0, 5);
-        this.setState({
-          characters: selectedCharacters.map((char, index) => ({
-            name: char.name,
-            id: index + 1
-          })),
-          isLoading: false
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+  // useEffect takes a function as an arguement
+  // This function will be executed by React on every render cycle "after" 
+  // this componenet has been rendered
+  // **After, this is important**
+  // becasue we are not calling the code in the function ourselves but 
+  // we pass a function 
+  // and React React will execute a function for us after the render cycle
+  // has finished for this component
+  // so that sounds like component did mount which also executed after
+  // if you need a willmount just put another useEffect code above
+  // you useEffect code as they execute in order
+
+  useEffect(() => {
+    console.log('It works');
+  });
+
+  // componentDidMount() {
+  //   this.setState({ isLoading: true });
+  //   fetch('https://swapi.co/api/people')
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error('Failed to fetch.');
+  //       }
+  //       return response.json();
+  //     })
+  //     .then(charData => {
+  //       const selectedCharacters = charData.results.slice(0, 5);
+  //       this.setState({
+  //         characters: selectedCharacters.map((char, index) => ({
+  //           name: char.name,
+  //           id: index + 1
+  //         })),
+  //         isLoading: false
+  //       });
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // }
 
   // render() { // removed to fix jsx code to use updated state
   // then remove all places of this.state to see how we have to adjust
