@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import './CharPicker.css';
 
-// paused 23:36
+// paused 25:26
 
 // convert charPicker to a functional component
 const CharPicker = props => {
@@ -22,9 +22,36 @@ const CharPicker = props => {
   // so that sounds like component did mount which also executed after
   // if you need a willmount just put another useEffect code above
   // you useEffect code as they execute in order
+  // useEffect runs more often than componentDidMount, you can control it though
+
 
   useEffect(() => {
-    console.log('It works');
+    // console.log('It works');
+      // this.setState({ isLoading: true });
+      setIsLoading(true);
+    fetch('https://swapi.co/api/people')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch.');
+        }
+        return response.json();
+      })
+      .then(charData => {
+        const selectedCharacters = charData.results.slice(0, 5);
+        // setIsLoading fase because we are done
+        setIsLoading(false);
+        // setloadedChars to what was in this.setState
+        setLoadedChars(
+          selectedCharacters.map((char, index) => ({
+              name: char.name,
+              id: index + 1
+            }))
+          );
+      })
+      .catch(err => {
+        console.log(err);
+        setIsLoading(false);
+      });
   });
 
   // componentDidMount() {
