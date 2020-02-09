@@ -20,7 +20,7 @@ const App = props => {
     const [chosenSide, setChosenSide] = useState('light')
 
     // define another state, state can be a number does not have to be an obj
-    const [selectedCharacter, setSelectedCharacter] = useState('1')
+    const [selectedCharacter, setSelectedCharacter] = useState(1)
 
   
   // state = {

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import './CharPicker.css';
 
-// paused 25:26
+// paused 29:13
 
 // convert charPicker to a functional component
 const CharPicker = props => {
@@ -52,7 +52,21 @@ const CharPicker = props => {
         console.log(err);
         setIsLoading(false);
       });
-  });
+      // useEffect takes 2 arguements, it does not only take a function
+      // which should execute after every render cycle
+      // the second arguement is an array of dependancies of that function we passed to useEffect
+      // so basicly an array where we have to state all variables that we use inside of that function
+      // we want to pass to useEffect, that should bascialy decide if that runs again or not
+      // so anything that we pass to that array, if we pass a variable here (second arguement), 
+      // that means if that
+      // variables value changes then the function that was passed to useEffect should run again
+      // if we pass an empty array as the second arguement then you are basicly saying hey React
+      // whenever this data which I pass to you here which is an empty array, when that changes please 
+      // run that function I passed to you again. It will always run the first time but because of the 
+      // empty array - subsequent executions are basically blocked because if we pass an empty array here
+      // there is no data that changes, therfore data never changes and it never re-executes
+      // ** useEffect with an empty array as a second arguementis the equivalent to component didMount** 
+  }, []);
 
   // componentDidMount() {
   //   this.setState({ isLoading: true });
