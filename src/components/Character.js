@@ -1,5 +1,6 @@
 //pick up tutorial where I left off 50:06 for watching
-// 36:25 for coding
+// 37:53 for coding
+// Happy Valentines Day!! Well yesterday was
 
 // import React, { Component } from 'react';
 import React, { useState, useEffect } from 'react';
@@ -41,7 +42,7 @@ const Character = props =>  {
   // changes
 
   useEffect(() => {
-    console.log('fetching data')
+   
     fetchData();
   }, [props.selectedChar])
 
