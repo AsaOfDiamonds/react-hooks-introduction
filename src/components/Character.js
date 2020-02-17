@@ -1,6 +1,5 @@
 //pick up tutorial where I left off 50:06 for watching
-// 37:53 for coding
-// Happy Valentines Day!! Well yesterday was
+// 41:13 for coding
 
 // import React, { Component } from 'react';
 import React, { useState, useEffect } from 'react';
@@ -42,9 +41,21 @@ const Character = props =>  {
   // changes
 
   useEffect(() => {
-   
     fetchData();
+    return () => {
+      console.log('Cleaning up...')
+    };
   }, [props.selectedChar])
+  // the return function in useEffect executes right before
+  // useEffect runs the next time, it is a cleanup function that basically
+  // runs once useEffect is done, before it runs again (like will mount)
+
+  // if you want a unMount just add another useEffect
+  useEffect(() => {
+    return () => {
+      console.log('component did unMount')
+    };
+  }, [])
 
 
   // fetchData = () => {
@@ -87,7 +98,8 @@ const Character = props =>  {
 
   // componentWillUnmount() {
   //   console.log('Too soon...');
-  // }
+  // }  ** see how we put this in useEffect above
+  // with a return function **
 
   // render() {
     let content = <p>Loading Character...</p>;
