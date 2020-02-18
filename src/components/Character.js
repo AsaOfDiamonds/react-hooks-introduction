@@ -1,5 +1,5 @@
 //pick up tutorial where I left off 50:06 for watching
-// 41:13 for coding
+// 45:30 for coding
 
 // import React, { Component } from 'react';
 import React, { useState, useEffect } from 'react';
@@ -9,6 +9,12 @@ const Character = props =>  {
   // state = { loadedCharacter: {}, isLoading: false };
   const [loadedCharacter, setLoadedCharacter] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+
+  console.log('Rendering...');
+
+  // can't use shouldComponentUpdate in functional components, you can wrap
+  // the entire Component in Memo, see very end with export
+
   // shouldComponentUpdate(nextProps, nextState) {
   //   console.log('shouldComponentUpdate');
   //   return (
@@ -123,7 +129,25 @@ const Character = props =>  {
   }
 }
 
-export default Character;
+export default React.memo(Character);
+// memo is a method that was introduced in React 16.6
+// it memoizes this component, which basically means it stores it
+// and only when inputs to this component (props) change then it will
+// re-render this. memo is basically shouldComponentUpdate
+// if you need more control you can pass a second function, a second arguement
+// which now is a function that ** has return true if the props are 
+// equal so if it should not re-render and *** return false if it should
+// re-render**
+
+// export default React.memo(Character, (prevProps, nextProps) => {
+// return nextProps.selectedChar === prevProps.selectedChar;
+// });
+
+// the above is redundent because React manages this perfectly for us, 
+// but if you want to check it you can but you have to remember it works
+// different than shouldComponentUpdate, it is the opposite 
+// you return true if you DO NOT want to re-render
+// you return false if you WANT it to re-render
 
 
 // code before conversion
