@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import './CharPicker.css';
 
-// paused 29:13
+import { useHttp } from "../hooks/http";
+// paused 50:28
 
 // convert charPicker to a functional component
 const CharPicker = props => {
