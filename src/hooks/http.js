@@ -1,5 +1,9 @@
 // this file created to add hooks in conversion
-// paused at 47:51
+
+
+// **Important** you must always call hooks whether they are built in or
+// my own  on the top level of the function, so not nested in another function 
+  // call, not nested in a function or a for loop
 import {  useState, useEffect } from "react";
 
 export const useHttp = (url) => {
