@@ -2,15 +2,80 @@
 // 45:30 for coding
 
 // import React, { Component } from 'react';
-import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useHttp } from "../hooks/http";
 import Summary from './Summary';
 
 const Character = props =>  {
   // state = { loadedCharacter: {}, isLoading: false };
-  const [loadedCharacter, setLoadedCharacter] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  // const [loadedCharacter, setLoadedCharacter] = useState({});
+  // const [isLoading, setIsLoading] = useState(false);
+
+  const [isLoading, fetchedData] = useHttp(
+    
+    'https://swapi.co/api/people/' + props.selectedChar,
+     [props.selectedChar] 
+    
+     );
+     console.log("character.js fetch cha");
+
+  let loadedCharacter = null;
+
+  if (fetchedData) {
+    loadedCharacter = {
+      id: props.selectedChar,
+      name: fetchedData.name,
+      height: fetchedData.height,
+      colors: {
+        hair: fetchedData.hair_color,
+        skin: fetchedData.skin_color
+      },
+      gender: fetchedData.gender,
+      movieCount: fetchedData.films.length
+    };
+  }
+  
 
   console.log('Rendering...');
+
+  //  // fetchData = () => {
+  //   const fetchData = () => {  
+  //     console.log(
+  //       'Sending Http request for new character with id ' +
+  //         props.selectedChar
+  //     );
+  //     // this.setState({ isLoading: true });
+  //     setIsLoading(true);
+  //     fetch('https://swapi.co/api/people/' + props.selectedChar)
+  //       .then(response => {
+  //         if (!response.ok) {
+  //           throw new Error('Could not fetch person!');
+  //         }
+  //         return response.json();
+  //       })
+  //       .then(charData => {
+  //         // const loadedCharacter = {
+          //   id: props.selectedChar,
+          //   name: charData.name,
+          //   height: charData.height,
+          //   colors: {
+          //     hair: charData.hair_color,
+          //     skin: charData.skin_color
+          //   },
+          //   gender: charData.gender,
+          //   movieCount: charData.films.length
+          // };
+               //   this.setState({ loadedCharacter: loadedCharacter, isLoading: false });
+      // })
+  //     setIsLoading(false);
+  //     setLoadedCharacter(loadedCharacter);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //       setIsLoading(false);
+  //     });
+  // };
 
   // can't use shouldComponentUpdate in functional components, you can wrap
   // the entire Component in Memo, see very end with export
@@ -46,12 +111,12 @@ const Character = props =>  {
   // execute initially like the first one, but then also when props.selectedChar
   // changes
 
-  useEffect(() => {
-    fetchData();
-    return () => {
-      console.log('Cleaning up...')
-    };
-  }, [props.selectedChar])
+  // useEffect(() => {
+  //   fetchData();
+  //   return () => {
+  //     console.log('Cleaning up...')
+  //   };
+  // }, [props.selectedChar])
   // the return function in useEffect executes right before
   // useEffect runs the next time, it is a cleanup function that basically
   // runs once useEffect is done, before it runs again (like will mount)
@@ -61,46 +126,46 @@ const Character = props =>  {
     return () => {
       console.log('component did unMount')
     };
-  }, [])
+  }, []);
 
 
   // fetchData = () => {
-  const fetchData = () => {  
-    console.log(
-      'Sending Http request for new character with id ' +
-        props.selectedChar
-    );
-    // this.setState({ isLoading: true });
-    setIsLoading(true);
-    fetch('https://swapi.co/api/people/' + props.selectedChar)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Could not fetch person!');
-        }
-        return response.json();
-      })
-      .then(charData => {
-        const loadedCharacter = {
-          id: props.selectedChar,
-          name: charData.name,
-          height: charData.height,
-          colors: {
-            hair: charData.hair_color,
-            skin: charData.skin_color
-          },
-          gender: charData.gender,
-          movieCount: charData.films.length
-        };
-      //   this.setState({ loadedCharacter: loadedCharacter, isLoading: false });
-      // })
-      setIsLoading(false);
-      setLoadedCharacter(loadedCharacter);
-      })
-      .catch(err => {
-        console.log(err);
-        setIsLoading(false);
-      });
-  };
+  // const fetchData = () => {  
+  //   console.log(
+  //     'Sending Http request for new character with id ' +
+  //       props.selectedChar
+  //   );
+  //   // this.setState({ isLoading: true });
+  //   setIsLoading(true);
+  //   fetch('https://swapi.co/api/people/' + props.selectedChar)
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error('Could not fetch person!');
+  //       }
+  //       return response.json();
+  //     })
+  //     .then(charData => {
+  //       const loadedCharacter = {
+  //         id: props.selectedChar,
+  //         name: charData.name,
+  //         height: charData.height,
+  //         colors: {
+  //           hair: charData.hair_color,
+  //           skin: charData.skin_color
+  //         },
+  //         gender: charData.gender,
+  //         movieCount: charData.films.length
+  //       };
+  //     //   this.setState({ loadedCharacter: loadedCharacter, isLoading: false });
+  //     // })
+  //     setIsLoading(false);
+  //     setLoadedCharacter(loadedCharacter);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //       setIsLoading(false);
+  //     });
+  // };
 
   // componentWillUnmount() {
   //   console.log('Too soon...');
@@ -111,7 +176,7 @@ const Character = props =>  {
     let content = <p>Loading Character...</p>;
 
     // remove this.state
-    if (!isLoading && loadedCharacter.id) {
+    if (!isLoading && loadedCharacter) {
       content = (
         <Summary
           name={loadedCharacter.name}
@@ -122,12 +187,12 @@ const Character = props =>  {
           movieCount={loadedCharacter.movieCount}
         />
       );
-    } else if (!isLoading && !loadedCharacter.id) {
+    } else if (!isLoading && !loadedCharacter) {
       content = <p>Failed to fetch character.</p>;
    // }
     return content;
   }
-}
+};
 
 export default React.memo(Character);
 // memo is a method that was introduced in React 16.6

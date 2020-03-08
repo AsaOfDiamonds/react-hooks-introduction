@@ -63,7 +63,7 @@ const App = props => {
   const charSelectHandler = event => {
     const charId = event.target.value;
     setSelectedCharacter(charId);
-  }
+  };
   
   
   // make functions into a const

@@ -1,15 +1,18 @@
 // import React, { Component } from 'react'; // going to useState instead
-import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useHttp } from "../hooks/http";
 import './CharPicker.css';
 
-import { useHttp } from "../hooks/http";
+
+
 // paused 51:14
 
 // convert charPicker to a functional component
 const CharPicker = props => {
 // class CharPicker extends Component {
-  const [loadedChars, setLoadedChars] = useState([]) // list of characters
-  const [isLoading, setIsLoading] = useState(false) // loading state
+  // const [loadedChars, setLoadedChars] = useState([]) // list of characters -- now done with hook
+  // const [isLoading, setIsLoading] = useState(false) // loading state -- now done with hook
   // state = { characters: [], isLoading: false };
 
   // useEffect takes a function as an arguement
@@ -28,13 +31,24 @@ const CharPicker = props => {
   // **Important** you must always call hooks whether they are built in or
   // my own  on the top level of the function, so not nested in another function 
   // call, not nested in a function or a for loop
-  useHttp();
-  // new useEffect would be as below
-  useEffect(() => {
-    console.log('useEffect runs');
+  const [isLoading, fetchedData ] = useHttp('https://swapi.co/api/people', []);
 
-    // using useHttp() is not allowed here must put it above
-  }, [])
+  const selectedCharacters = fetchedData 
+    ? fetchedData.results
+      .slice(0, 5)
+      .map((char, index) => ({
+        name: char.name,
+        id: index + 1
+      }))
+    : [];
+  
+      
+  // new useEffect would be as below
+  // useEffect(() => {
+  //   console.log('useEffect runs');
+
+  //   // using useHttp() is not allowed here must put it above
+  // }, [])
 
 
   // old useEffect below
@@ -113,16 +127,15 @@ const CharPicker = props => {
 
     if (
       !isLoading &&
-      loadedChars &&
-      loadedChars.length > 0
-    ) {
+      selectedCharacters &&
+      selectedCharacters.length > 0) {
       content = (
         <select
           onChange={props.onCharSelect}
           value={props.selectedChar}
           className={props.side}
         >
-          {loadedChars.map(char => (
+          {selectedCharacters.map(char => (
             <option key={char.id} value={char.id}>
               {char.name}
             </option>
@@ -131,12 +144,12 @@ const CharPicker = props => {
       );
     } else if (
       !isLoading &&
-      (!loadedChars || loadedChars.length === 0)
+      (!selectedCharacters || selectedCharacters.length === 0)
     ) {
       content = <p>Could not fetch any data.</p>;
     }
     return content; // no render just return content
   // } // removed to fix jsx code to use updated state
-}
+};
 
 export default CharPicker;
