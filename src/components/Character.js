@@ -360,3 +360,10 @@ export default React.memo(Character);
 // // you return true if you DO NOT want to re-render
 // // you return false if you WANT it to re-render
 
+
+
+// was not sure where document this but the grocery store was crazy today because of 
+// the corona virus. The store was not packed but 65% of the products were gone.
+// all the eggs were gone, almost all the butter, most canned goods, no beef at all,
+// only 3 cereals to choose from, no rice or noodles, almost all the deli meat was gone, it was
+// so strange and surreal. If you are reading this then you found an easter egg.
